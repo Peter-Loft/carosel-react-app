@@ -29,3 +29,50 @@ it("works when you click on the right arrow", function() {
     container.querySelector('img[alt="testing image 2"]')
   ).toBeInTheDocument();
 });
+
+it("left arrow moves back one image", function() {
+  const { container } = render(
+    <Carousel
+      photos={TEST_IMAGES}
+      title="images for testing"
+    />
+  );
+  // move forward in the carousel
+  const rightArrow = container.querySelector(".fa-chevron-circle-right");
+  fireEvent.click(rightArrow);
+
+  expect(
+    container.querySelector('img[alt="testing image 2"]')
+  ).toBeInTheDocument();
+
+  const leftArrow = container.querySelector(".fa-chevron-circle-left");
+  fireEvent.click(leftArrow);
+
+  expect(
+    container.querySelector('img[alt="testing image 2"]')
+  ).not.toBeInTheDocument();
+  
+  expect(
+    container.querySelector('img[alt="testing image 1"]')
+  ).toBeInTheDocument();
+
+});
+
+it("works at all", function() {
+  render(
+    <Carousel
+      photos={TEST_IMAGES}
+      title="images for testing"
+    />
+  );
+});
+
+/** Snapshot test */
+it("matches snapshot", function () {
+  const { container } = render(
+  <Carousel
+    photos={TEST_IMAGES}
+    title="images for testing"
+  />);
+  expect(container).toMatchSnapshot();
+});
